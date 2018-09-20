@@ -1,0 +1,22 @@
+#注册中心应用名称
+spring:
+  application:
+      name: eureka-server
+#eureka.server.enableSelfPreservation:是否向注册中心注册自己
+#通过eureka.client.registerWithEureka：false和fetchRegistry：false来表明自己是一个eureka server.
+server:
+  port: 8761
+eureka:
+  server:
+      enableSelfPreservation: false
+  instance:
+      hostname: discovery
+#      prefer-ip-address: true
+#      preferIpAddress: true
+#      ip-address: 172.193.225.185
+#      instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+  client:
+      fetch-registry: false
+      register-with-eureka: false
+      service-url:
+           defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

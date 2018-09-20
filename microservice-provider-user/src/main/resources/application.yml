@@ -1,0 +1,43 @@
+#服务提供者的运行端口
+server:
+  port: 8011
+#服务提供者的应用名称，http://discovery:8761/页面当中会显示出来
+spring:
+  application:
+    name: microservice-provider-user
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  datasource:                         # 指定数据源
+    platform: h2                      # 指定数据源类型
+    schema: classpath:db/schema.sql      # 指定h2数据库的建表脚本
+    data: classpath:db/data.sql          # 指定h2数据库的insert脚本
+    url: jdbc:h2:~/test               # 配置h2数据库连接地址
+    driver-class-name: org.h2.Driver  # 配置JDBC Driver
+    username: sa                      # 配置数据库用户名
+    password:                         # 配置数据库密码
+  h2:
+    console:
+      settings:
+        web-allow-others: true # 进行该配置后，h2 web consloe就可以在远程访问了。否则只能在本机访问。
+      path: /h2-console       # 进行该配置，你就可以通过YOUR_URL/h2-console访问h2 web consloe。
+      enabled: true           # 进行该配置，程序开启时就会启动h2 web consloe。
+  #用户配置开发(dev)，测试(test)，生产(prod)的配置文件，避免频繁改动
+  profiles:
+    active: dev
+logging:
+  level:
+    root: INFO
+    org.hibernate: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
+    com.itmuch.youran.persistence: ERROR
+#打包之前注释掉
+eureka:
+  client:
+    serviceUrl:
+       defaultZone: http://admin:password@discovery:8761/eureka/ #指定注册中心的地址http://discovery:8761/eureka/
+  instance:
+    prefer-ip-address: true
